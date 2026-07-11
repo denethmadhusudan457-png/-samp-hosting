@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+
+<section class="auth-wrap">
+  <div class="auth-card">
+    <h1>Welcome Back</h1>
+    <p class="sub">ඔබේ server panel එකට login වෙන්න.</p>
+
+    <% if (error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/login">
+      <div class="field">
+        <label for="username">Username හෝ Email</label>
+        <input type="text" id="username" name="username" required autofocus>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Login</button>
+    </form>
+
+    <div class="auth-switch">Account එකක් නැද්ද? <a href="/register">Register කරන්න</a></div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

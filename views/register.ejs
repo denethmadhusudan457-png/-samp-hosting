@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+
+<section class="auth-wrap">
+  <div class="auth-card">
+    <h1>Account එකක් හදන්න</h1>
+    <p class="sub">Free SA-MP server එකක් තත්පර 60කින් deploy කරන්න.</p>
+
+    <% if (error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/register">
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="ex: darklord99" required minlength="3" maxlength="24">
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="අකුරු 6කට වඩා" required minlength="6">
+      </div>
+      <div class="field">
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" id="confirm_password" name="confirm_password" placeholder="මුරපදය නැවත ලියන්න" required minlength="6">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Account එක හදන්න</button>
+    </form>
+
+    <div class="auth-switch">දැනටමත් account එකක් තියෙනවද? <a href="/login">Login කරන්න</a></div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

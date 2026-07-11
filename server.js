@@ -158,6 +158,89 @@ app.post('/dashboard/server/:id/toggle', requireAuth, (req, res) => {
   res.redirect('/dashboard');
 });
 
+// ---------- Protected: File Manager ----------
+function getServerForUser(serverId, userId) {
+  return db.prepare('SELECT * FROM servers WHERE id = ? AND user_id = ?').get(serverId, userId);
+}
+
+app.get('/dashboard/server/:id/files', requireAuth, (req, res) => {
+  const server = getServerForUser(req.params.id, req.session.user.id);
+  if (!server) return res.redirect('/dashboard');
+
+  const folderId = req.query.folder ? parseInt(req.query.folder) : null;
+
+  let currentFolder = null;
+  let breadcrumb = [];
+  if (folderId) {
+    currentFolder = db.prepare('SELECT * FROM server_files WHERE id = ? AND server_id = ? AND type = ?').get(folderId, server.id, 'folder');
+    if (!currentFolder) return res.redirect(`/dashboard/server/${server.id}/files`);
+    let node = currentFolder;
+    while (node) {
+      breadcrumb.unshift(node);
+      node = node.parent_id ? db.prepare('SELECT * FROM server_files WHERE id = ?').get(node.parent_id) : null;
+    }
+  }
+
+  const items = db.prepare('SELECT * FROM server_files WHERE server_id = ? AND parent_id IS ? ORDER BY type DESC, name ASC')
+    .all(server.id, folderId);
+
+  res.render('files', { title: 'File Manager', server, items, currentFolder, breadcrumb, error: null });
+});
+
+app.post('/dashboard/server/:id/files/create', requireAuth, (req, res) => {
+  const server = getServerForUser(req.params.id, req.session.user.id);
+  if (!server) return res.redirect('/dashboard');
+
+  const { name, type, parent_id } = req.body;
+  const parentId = parent_id ? parseInt(parent_id) : null;
+  const cleanName = (name || '').trim();
+
+  if (!cleanName) return res.redirect(`/dashboard/server/${server.id}/files${parentId ? '?folder=' + parentId : ''}`);
+
+  try {
+    db.prepare('INSERT INTO server_files (server_id, parent_id, name, type, content) VALUES (?, ?, ?, ?, ?)')
+      .run(server.id, parentId, cleanName, type === 'folder' ? 'folder' : 'file', '');
+  } catch (err) {
+    console.error(err);
+  }
+  res.redirect(`/dashboard/server/${server.id}/files${parentId ? '?folder=' + parentId : ''}`);
+});
+
+app.get('/dashboard/server/:id/files/:fileId/edit', requireAuth, (req, res) => {
+  const server = getServerForUser(req.params.id, req.session.user.id);
+  if (!server) return res.redirect('/dashboard');
+
+  const file = db.prepare('SELECT * FROM server_files WHERE id = ? AND server_id = ? AND type = ?').get(req.params.fileId, server.id, 'file');
+  if (!file) return res.redirect(`/dashboard/server/${server.id}/files`);
+
+  res.render('file-edit', { title: 'Edit File', server, file, error: null, saved: false });
+});
+
+app.post('/dashboard/server/:id/files/:fileId/edit', requireAuth, (req, res) => {
+  const server = getServerForUser(req.params.id, req.session.user.id);
+  if (!server) return res.redirect('/dashboard');
+
+  const file = db.prepare('SELECT * FROM server_files WHERE id = ? AND server_id = ? AND type = ?').get(req.params.fileId, server.id, 'file');
+  if (!file) return res.redirect(`/dashboard/server/${server.id}/files`);
+
+  db.prepare('UPDATE server_files SET content = ? WHERE id = ?').run(req.body.content || '', file.id);
+  const updated = db.prepare('SELECT * FROM server_files WHERE id = ?').get(file.id);
+  res.render('file-edit', { title: 'Edit File', server, file: updated, error: null, saved: true });
+});
+
+app.post('/dashboard/server/:id/files/:fileId/delete', requireAuth, (req, res) => {
+  const server = getServerForUser(req.params.id, req.session.user.id);
+  if (!server) return res.redirect('/dashboard');
+
+  const item = db.prepare('SELECT * FROM server_files WHERE id = ? AND server_id = ?').get(req.params.fileId, server.id);
+  if (item) {
+    db.prepare('DELETE FROM server_files WHERE parent_id = ?').run(item.id);
+    db.prepare('DELETE FROM server_files WHERE id = ?').run(item.id);
+  }
+  const redirectFolder = req.body.parent_id ? `?folder=${req.body.parent_id}` : '';
+  res.redirect(`/dashboard/server/${server.id}/files${redirectFolder}`);
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 SA-MP Hosting server running at http://localhost:${PORT}`);
 });

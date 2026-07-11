@@ -1,0 +1,64 @@
+<%- include('partials/header') %>
+
+<section class="section" style="padding-top:64px;">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Pricing</div>
+      <h2>Hosting Plans</h2>
+      <p>ඔබේ community එකේ ප්‍රමාණයට ගැලපෙන plan එක තෝරන්න. ඕනෑම වෙලාවක Free සිට Premium වෙත upgrade කරන්න පුළුවන්.</p>
+    </div>
+
+    <div class="plans-grid" style="max-width:100%; grid-template-columns: repeat(2, 1fr);">
+      <div class="plan-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">Rs. 0<span>/මාසෙට</span></div>
+        <ul class="plan-features">
+          <li><%= plans.free.slots %> Player Slots</li>
+          <li><%= plans.free.ram %> RAM</li>
+          <li><%= plans.free.storage %> Storage</li>
+          <li>Subdomain <%= plans.free.subdomains %>ක්</li>
+          <li>Basic DDoS Protection</li>
+          <li>Community Discord Support</li>
+        </ul>
+        <a href="/register" class="btn btn-ghost btn-block">Free හි පටන් ගන්න</a>
+      </div>
+
+      <div class="plan-card featured">
+        <div class="plan-badge">Popular</div>
+        <div class="plan-name">Premium</div>
+        <div class="plan-price">Rs. <%= plans.premium.price %><span>/මාසෙට</span></div>
+        <ul class="plan-features">
+          <li><%= plans.premium.slots %> Player Slots</li>
+          <li><%= plans.premium.ram %> RAM</li>
+          <li><%= plans.premium.storage %> Storage</li>
+          <li>Subdomain <%= plans.premium.subdomains %>ක්</li>
+          <li>Advanced DDoS Protection</li>
+          <li>Priority 24/7 Support</li>
+          <li>Free Daily Backups</li>
+        </ul>
+        <a href="/register" class="btn btn-primary btn-block">Premium ගන්න</a>
+      </div>
+    </div>
+
+    <div class="section-head" style="margin-top:64px;">
+      <div class="eyebrow">FAQ</div>
+      <h2>නිතර අහන ප්‍රශ්න</h2>
+    </div>
+    <div class="grid-3">
+      <div class="feature-card">
+        <h3>Free plan එක ඇත්තටම free ද?</h3>
+        <p>ඔව්. Card එකක් ඕන නැහැ, register වෙලාම server එකක් instant create කරන්න පුළුවන්.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Premium වෙත upgrade කරන්නේ කොහොමද?</h3>
+        <p>Dashboard එකේ "Upgrade to Premium" button එකෙන්. Payment gateway integration මේ demo එකේ නැහැ.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Custom domain support කරනවද?</h3>
+        <p>Premium plan එකේ custom domain point කරන්න support කරනවා — support ticket එකක් දාන්න.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -25,7 +25,18 @@ db.exec(`
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
   );
+
+  CREATE TABLE IF NOT EXISTS server_files (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    server_id INTEGER NOT NULL,
+    parent_id INTEGER,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL DEFAULT 'file',
+    content TEXT DEFAULT '',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (server_id) REFERENCES servers(id),
+    FOREIGN KEY (parent_id) REFERENCES server_files(id)
+  );
 `);
 
 module.exports = db;
-                                  

@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+
+<section class="dash-head">
+  <div class="wrap">
+    <div class="eyebrow">Editing</div>
+    <h1>📄 <%= file.name %></h1>
+    <p><%= server.server_name %> · <%= server.subdomain %>.loshost.lk</p>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:90px; max-width:900px;">
+  <% if (saved) { %>
+    <div class="alert alert-success">✔ File එක save වුනා.</div>
+  <% } %>
+
+  <form method="POST" action="/dashboard/server/<%= server.id %>/files/<%= file.id %>/edit">
+    <textarea name="content" class="code-editor" spellcheck="false" placeholder="ඔබේ code / config content එක මෙතන ලියන්න..."><%= file.content %></textarea>
+    <div class="editor-actions">
+      <button type="submit" class="btn btn-primary">💾 Save File</button>
+      <a href="/dashboard/server/<%= server.id %>/files" class="btn btn-ghost">← File Manager වෙත ආපහු</a>
+    </div>
+  </form>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,66 @@
+<%- include('partials/header') %>
+
+<section class="dash-head">
+  <div class="wrap">
+    <div class="eyebrow">File Manager</div>
+    <h1><%= server.server_name %></h1>
+    <p><%= server.subdomain %>.loshost.lk — files ඔබේ server එකට upload/edit කරන්න.</p>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:90px;">
+  <div class="dash-panel" style="margin-bottom:20px;">
+    <div class="breadcrumb">
+      <a href="/dashboard/server/<%= server.id %>/files">🏠 root</a>
+      <% breadcrumb.forEach(function(b) { %>
+        <span>/</span>
+        <a href="/dashboard/server/<%= server.id %>/files?folder=<%= b.id %>"><%= b.name %></a>
+      <% }); %>
+    </div>
+  </div>
+
+  <div class="dash-panel" style="margin-bottom:20px;">
+    <h3>නව File/Folder එකක්</h3>
+    <form method="POST" action="/dashboard/server/<%= server.id %>/files/create" class="create-form">
+      <input type="hidden" name="parent_id" value="<%= currentFolder ? currentFolder.id : '' %>">
+      <input type="text" name="name" placeholder="name (ex: server.cfg)" required maxlength="60">
+      <select name="type" class="file-type-select">
+        <option value="file">📄 File</option>
+        <option value="folder">📁 Folder</option>
+      </select>
+      <button type="submit" class="btn btn-primary btn-sm">+ Create</button>
+    </form>
+  </div>
+
+  <% if (items.length === 0) { %>
+    <div class="empty-state">
+      <p>මේ folder එකේ files නැහැ. ඉහල form එකෙන් අලුතින් file/folder එකක් හදන්න.</p>
+    </div>
+  <% } else { %>
+    <div class="file-list">
+      <% items.forEach(function(item) { %>
+        <div class="file-row">
+          <% if (item.type === 'folder') { %>
+            <a href="/dashboard/server/<%= server.id %>/files?folder=<%= item.id %>" class="file-link">
+              <span class="file-icon">📁</span>
+              <span class="file-name"><%= item.name %></span>
+            </a>
+          <% } else { %>
+            <a href="/dashboard/server/<%= server.id %>/files/<%= item.id %>/edit" class="file-link">
+              <span class="file-icon">📄</span>
+              <span class="file-name"><%= item.name %></span>
+            </a>
+          <% } %>
+          <form method="POST" action="/dashboard/server/<%= server.id %>/files/<%= item.id %>/delete" onsubmit="return confirm('Delete <%= item.name %>?');">
+            <input type="hidden" name="parent_id" value="<%= currentFolder ? currentFolder.id : '' %>">
+            <button type="submit" class="btn btn-sm btn-danger">🗑️</button>
+          </form>
+        </div>
+      <% }); %>
+    </div>
+  <% } %>
+
+  <a href="/dashboard" class="btn btn-ghost" style="margin-top:24px;">← Dashboard වෙත ආපහු</a>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,70 @@
+<%- include('partials/header') %>
+
+<section class="dash-head">
+  <div class="wrap">
+    <div class="eyebrow">Control Panel</div>
+    <h1>ආයුබෝවන්, <%= user.username %> 👋</h1>
+    <p>ඔබේ SA-MP servers මෙතනින් manage කරන්න.</p>
+  </div>
+</section>
+
+<section class="wrap dash-grid">
+  <aside>
+    <div class="dash-panel">
+      <h3>ඔබේ Plan</h3>
+      <div class="plan-mini">
+        <div class="row"><span>Plan</span><strong><%= plan.name %></strong></div>
+        <div class="row"><span>Slots / server</span><strong><%= plan.slots %></strong></div>
+        <div class="row"><span>RAM</span><strong><%= plan.ram %></strong></div>
+        <div class="row"><span>Storage</span><strong><%= plan.storage %></strong></div>
+        <div class="row"><span>Servers</span><strong><%= servers.length %> / <%= plan.subdomains %></strong></div>
+      </div>
+      <% if (user.plan === 'free') { %>
+        <a href="/plans" class="btn btn-neon btn-block" style="margin-top:18px;">Premium වෙත Upgrade</a>
+      <% } %>
+    </div>
+  </aside>
+
+  <div>
+    <div class="dash-panel" style="margin-bottom:24px;">
+      <h3>නව Server එකක් Create කරන්න</h3>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-error"><%= error %></div>
+      <% } %>
+      <form method="POST" action="/dashboard/create-server" class="create-form">
+        <input type="text" name="server_name" placeholder="Server name (ex: Los Santos RP)" required maxlength="40">
+        <input type="text" name="subdomain" placeholder="subdomain (ex: mycity)" required pattern="[a-zA-Z0-9-]+" maxlength="20">
+        <button type="submit" class="btn btn-primary">🎮 Create Server</button>
+      </form>
+    </div>
+
+    <% if (servers.length === 0) { %>
+      <div class="empty-state">
+        <p>ඔබට තවම servers නැහැ. ඉහල form එකෙන් පළමු server එක හදන්න.</p>
+      </div>
+    <% } else { %>
+      <% servers.forEach(function(s) { %>
+        <div class="server-card">
+          <div class="server-info">
+            <span class="status-dot <%= s.status %>"></span>
+            <div>
+              <div class="server-name"><%= s.server_name %></div>
+              <div class="server-sub"><%= s.subdomain %>.loshost.lk · <%= s.slots %> slots · <%= s.status %></div>
+            </div>
+          </div>
+          <div class="server-actions">
+            <form method="POST" action="/dashboard/server/<%= s.id %>/toggle">
+              <button type="submit" class="btn btn-sm <%= s.status === 'online' ? 'btn-danger' : 'btn-neon' %>">
+                <%= s.status === 'online' ? '⏹ Stop' : '▶ Start' %>
+              </button>
+            </form>
+            <button class="btn btn-sm btn-ghost" disabled title="Demo — File Manager coming soon">📁 Files</button>
+            <button class="btn btn-sm btn-ghost" disabled title="Demo — Console coming soon">📜 Console</button>
+          </div>
+        </div>
+      <% }); %>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

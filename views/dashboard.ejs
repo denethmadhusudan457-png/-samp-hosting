@@ -58,7 +58,7 @@
                 <%= s.status === 'online' ? '⏹ Stop' : '▶ Start' %>
               </button>
             </form>
-            <button class="btn btn-sm btn-ghost" disabled title="Demo — File Manager coming soon">📁 Files</button>
+            <a href="/dashboard/server/<%= s.id %>/files" class="btn btn-sm btn-ghost">📁 Files</a>
             <button class="btn btn-sm btn-ghost" disabled title="Demo — Console coming soon">📜 Console</button>
           </div>
         </div>

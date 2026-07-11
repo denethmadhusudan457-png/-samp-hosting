@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> — LosHost SA-MP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="skyline" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a href="/" class="brand">
+        <span class="brand-mark">LH</span>
+        <span class="brand-name">Los<span class="accent">Host</span></span>
+      </a>
+      <nav class="main-nav">
+        <a href="/">මුල් පිටුව</a>
+        <a href="/plans">Plans</a>
+        <% if (user) { %>
+          <a href="/dashboard">Dashboard</a>
+        <% } %>
+      </nav>
+      <div class="header-actions">
+        <% if (user) { %>
+          <span class="hi-user">👋 <%= user.username %></span>
+          <form action="/logout" method="POST" class="inline-form">
+            <button type="submit" class="btn btn-ghost">Logout</button>
+          </form>
+        <% } else { %>
+          <a href="/login" class="btn btn-ghost">Login</a>
+          <a href="/register" class="btn btn-primary">Register</a>
+        <% } %>
+      </div>
+    </div>
+  </header>
+  <main>

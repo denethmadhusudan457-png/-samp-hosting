@@ -1,0 +1,117 @@
+<%- include('partials/header') %>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Los Santos Server Grid — Online</div>
+      <h1>ඔබේ SA-MP සර්වරය, <span class="accent">තත්පර 60කින්</span> Live කරන්න.</h1>
+      <p class="lead">Free plan එකෙන් පටන් අරන්, DDoS protection, 24/7 uptime සහ instant subdomain සමඟින් ලංකාවේ ගේමර්ලා විශ්වාස කරන SA-MP / Open.mp hosting එක.</p>
+      <div class="hero-ctas">
+        <a href="/register" class="btn btn-primary">නොමිලේ Server එකක් හදන්න</a>
+        <a href="/plans" class="btn btn-ghost">Plans බලන්න</a>
+      </div>
+    </div>
+
+    <div class="console">
+      <div class="console-bar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span style="margin-left:8px;">loshost://server1.loshost.lk — console</span>
+      </div>
+      <div class="console-body" id="bootConsole">
+        <div class="ln dim" style="animation-delay:0.1s">$ loshost deploy --slots 30 --map "Los Santos"</div>
+        <div class="ln" style="animation-delay:0.6s">Allocating VPS resources... done</div>
+        <div class="ln" style="animation-delay:1.1s">Provisioning subdomain <span class="accent">server1.loshost.lk</span></div>
+        <div class="ln ok" style="animation-delay:1.6s">✔ SA-MP 0.3.7 runtime attached</div>
+        <div class="ln ok" style="animation-delay:2.1s">✔ MySQL database linked</div>
+        <div class="ln warn" style="animation-delay:2.6s">⚠ Firewall rules applied (DDoS shield ON)</div>
+        <div class="ln ok" style="animation-delay:3.1s">✔ Server ONLINE — 0/30 players<span class="cursor-blink"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="strip">
+  <div class="wrap strip-inner">
+    <div class="stat"><div class="num">99.9%</div><div class="label">Uptime SLA</div></div>
+    <div class="stat"><div class="num">1,200+</div><div class="label">Servers Hosted</div></div>
+    <div class="stat"><div class="num">&lt;20ms</div><div class="label">LK/SG Ping</div></div>
+    <div class="stat"><div class="num">24/7</div><div class="label">Discord Support</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">ඇයි LosHost</div>
+      <h2>Server එකක් Host කරන්න ඕන හැම දෙයක්ම</h2>
+    </div>
+    <div class="grid-3">
+      <div class="feature-card">
+        <div class="feature-icon">🎮</div>
+        <h3>One-click Server Create</h3>
+        <p>Slots, gamemode සහ subdomain එක select කරලා, buttons කිහිපයකින් server එක deploy කරන්න.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📁</div>
+        <h3>File Manager & Console</h3>
+        <p>pawno scripts, filterscripts සහ config files browser එකෙන්ම edit කරන්න, live console log එකත් සමඟින්.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗄️</div>
+        <h3>Free MySQL Database</h3>
+        <p>සෑම plan එකකටම dedicated MySQL database එකක්, phpMyAdmin access එකක් සමඟින්.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <h3>Instant Subdomain</h3>
+        <p><code>yourserver.loshost.lk</code> ලෙස ලෝකේටම access කරන්න පුළුවන් domain එකක් instant.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>DDoS Protection</h3>
+        <p>Layer 3/4 protection built-in — competitor attacks වලින් ඔබේ server එක සුරක්ෂිතයි.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Real-time Panel</h3>
+        <p>CPU, RAM, player count සහ uptime — Start / Stop / Restart එකම dashboard එකකින්.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Plans</div>
+      <h2>ඔබට ගැලපෙන Plan එක තෝරන්න</h2>
+    </div>
+    <div class="plans-grid">
+      <div class="plan-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">Rs. 0<span>/මාසෙට</span></div>
+        <ul class="plan-features">
+          <li><%= plans.free.slots %> Player Slots</li>
+          <li><%= plans.free.ram %> RAM</li>
+          <li><%= plans.free.storage %> Storage</li>
+          <li>Subdomain <%= plans.free.subdomains %>ක්</li>
+        </ul>
+        <a href="/register" class="btn btn-ghost btn-block">Free හි පටන් ගන්න</a>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-badge">Popular</div>
+        <div class="plan-name">Premium</div>
+        <div class="plan-price">Rs. <%= plans.premium.price %><span>/මාසෙට</span></div>
+        <ul class="plan-features">
+          <li><%= plans.premium.slots %> Player Slots</li>
+          <li><%= plans.premium.ram %> RAM</li>
+          <li><%= plans.premium.storage %> Storage</li>
+          <li>Subdomain <%= plans.premium.subdomains %>ක්</li>
+        </ul>
+        <a href="/register" class="btn btn-primary btn-block">Premium ගන්න</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

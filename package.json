@@ -1,0 +1,19 @@
+{
+  "name": "samp-hosting",
+  "version": "1.0.0",
+  "description": "SA-MP / Open.mp Server Hosting Website - Sri Lanka",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "better-sqlite3": "^11.3.0",
+    "bcryptjs": "^2.4.3",
+    "ejs": "^3.1.10",
+    "connect-sqlite3": "^0.9.13",
+    "dotenv": "^16.4.5"
+  }
+}
